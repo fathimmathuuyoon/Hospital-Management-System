@@ -1,0 +1,20 @@
+{% extends "patient/patient_base.html" %}
+{% block content %}
+
+<h4>Book Doctor</h4>
+
+<form method="post">
+    {% csrf_token %}
+    <select name="doctor" class="form-control">
+        <option value="">-- Select Doctor --</option>
+        {% for d in doctors %}
+            <option value="{{ d.id }}">
+                {{ d.name }} - {{ d.dept }}
+            </option>
+        {% endfor %}
+    </select>
+    <br>
+    <button class="btn btn-primary">Book</button>
+</form>
+
+{% endblock %}

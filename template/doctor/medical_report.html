@@ -1,0 +1,26 @@
+{% extends "doctor/doctor_base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+
+<div>
+
+  <h4 class="mb-3 text_center">Add Medical Report</h4>
+
+  <p><b>Patient :</b> {{ booking.patient.name }}</p>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+
+    <button type="submit" class="btn btn-success mt-3">
+      Save Medical Report
+    </button>
+  </form>
+
+</div>
+
+{% endblock %}
+
+
+

@@ -1,0 +1,33 @@
+{% extends "doctor/doctor_base.html" %}
+{% block content %}
+
+<h4>My Bookings</h4>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Serial No</th>
+            <th>Patient Name</th>
+            <th>Age</th>
+            <th>Phone</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for i in bookings %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ i.patient.name }}</td>
+            <td>{{ i.patient.age }}</td>
+            <td>{{ i.patient.phone_number }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4" class="text-center">
+                <h3>No bookings available</h3>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

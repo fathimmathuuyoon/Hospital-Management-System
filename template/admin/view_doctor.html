@@ -1,0 +1,27 @@
+{% extends "admin/admin_base.html" %}
+{% block content %}
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Serial no</th>
+      <th scope="col">Department</th>
+      <th scope="col">Name</th>
+      <th scope="col">Phone Number</th>
+      <th scope="col">Edit</th>
+      <th scope="col">Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for i in data %}
+    <tr>
+      <th scope="row">{{ forloop.counter }}</th>
+      <td>{{ i.dept }}</td>
+      <td>{{ i.name }}</td>
+      <td>{{ i.phone_number }}</td>
+      <td><a class="btn btn-primary" href="{% url 'edit_doctor' i.id %}" role="button">Edit</a></td>
+      <td><a class="btn btn-primary" href="{% url 'delete_doctor' i.id %}" role="button">Delete</a></td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

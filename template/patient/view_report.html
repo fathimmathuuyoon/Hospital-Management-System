@@ -1,0 +1,36 @@
+{% extends "patient/patient_base.html" %}
+{% block content %}
+
+<h4>Medical History</h4>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Serial No</th>
+      <th>Patient</th>
+      <th>Symptoms</th>
+      <th>Diagnosis</th>
+      <th>Prescription</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {% for h in history %}
+    <tr>
+      <td>{{ forloop.counter }}</td>
+      <td>{{ h.booking.patient.name }}</td>
+      <td>{{ h.symptoms }}</td>
+      <td>{{ h.diagnosis }}</td>
+      <td>{{ h.prescription }}</td>
+      <td>{{ h.created_at|date:"d M Y" }}</td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="6">No medical history found</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}
