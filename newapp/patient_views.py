@@ -1,7 +1,8 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
-from newapp.models import Doctor, Patient, Booking, MedicalReport
+from newapp.models import Doctor, Patient, Booking, MedicalReport, Prescription
+
 
 @login_required(login_url='login_view')
 def patient_base(request):
@@ -29,3 +30,11 @@ def view_report(request):
     patient = Patient.objects.get(user=request.user)
     history = MedicalReport.objects.filter(booking__patient=patient)
     return render(request,'patient/view_report.html',{'history': history})
+
+
+def view_prescriptions(request):
+    user_data = request.user
+    patient = Patient.objects.get(user=user_data)
+    prescription = Prescription.objects.filter(
+        booking__patient=patient)
+    return render(request,'patient/view_prescription.html',{'prescription': prescription})

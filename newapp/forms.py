@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 
-from newapp.models import Login, Doctor, Patient, MedicalReport
+from newapp.models import Login, Doctor, Patient, MedicalReport, Prescription
 
 
 class LoginRegister(UserCreationForm):
@@ -32,4 +32,9 @@ class PatientRegister(forms.ModelForm):
 class MedicalReportForm(forms.ModelForm):
     class Meta:
         model = MedicalReport
-        fields = ['symptoms', 'diagnosis', 'prescription',]
+        fields = ['symptoms', 'diagnosis', 'medicine',]
+
+class PrescriptionForm(forms.ModelForm):
+    class Meta:
+        model = Prescription
+        fields = ['medicine_name', 'dose', 'duration', 'instruction']

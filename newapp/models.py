@@ -31,9 +31,18 @@ class Booking(models.Model):
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
     booking_date = models.DateTimeField(auto_now_add=True)
 
+
 class MedicalReport(models.Model):
     booking = models.ForeignKey(Booking,on_delete=models.CASCADE,related_name='medical_report')
     symptoms = models.TextField()
     diagnosis = models.TextField()
-    prescription = models.TextField()
+    medicine = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+
+class Prescription(models.Model):
+    booking = models.ForeignKey(Booking,on_delete=models.CASCADE,related_name='prescriptions')
+    medicine_name = models.CharField(max_length=100)
+    dose = models.CharField(max_length=50)
+    duration = models.CharField(max_length=50)
+    instruction = models.TextField()
+    date = models.DateField(auto_now_add=True)

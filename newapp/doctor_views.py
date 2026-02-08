@@ -1,8 +1,9 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
-from newapp.forms import MedicalReportForm
-from newapp.models import Doctor, Patient, Booking, MedicalReport
+from newapp.forms import MedicalReportForm, PrescriptionForm
+from newapp.models import Doctor, Booking, MedicalReport, Prescription
+
 
 @login_required(login_url='login_view')
 def doctor_base(request):
@@ -18,8 +19,9 @@ def view_bookings(request):
 
 @login_required(login_url='login_view')
 def view_patients(request):
-    doctor = request.user.doctor
-    bookings = Booking.objects.filter(doctor=doctor)
+    user_data = request.user
+    user_doctor = Doctor.objects.get(user=user_data)
+    bookings = Booking.objects.filter(doctor=user_doctor)
     return render(
         request,
         'doctor/view_patients.html',
@@ -35,7 +37,7 @@ def medical_report(request, id):
             data = form.save(commit=False)
             data.booking = booking
             data.save()
-            return redirect('medical_history')
+            return redirect('medical_history',id=booking.id)
     else:
         form = MedicalReportForm()
     return render(
@@ -44,9 +46,36 @@ def medical_report(request, id):
 
 
 @login_required(login_url='login_view')
-def medical_history(request):
+def medical_history(request,id):
     user_data = request.user
-    doctor = Doctor.objects.get(user=user_data)
-    history = MedicalReport.objects.filter(booking__doctor=doctor)
-    return render(request,'doctor/medical_history.html',{'history': history})
+    user_doctor = Doctor.objects.get(user=user_data)
+    history = MedicalReport.objects.filter(id=id,booking__doctor=user_doctor)
 
+    return render(
+        request,
+        'doctor/medical_history.html',
+        {'history': history}
+    )
+
+
+@login_required(login_url='login_view')
+def prescription(request, id):
+    booking = Booking.objects.get(id=id)
+    if request.method == "POST":
+        form = PrescriptionForm(request.POST)
+        if form.is_valid():
+            data = form.save(commit=False)
+            data.booking = booking
+            data.doctor = request.user.doctor
+            data.save()
+            return redirect('view_prescription',id=booking.id)
+    else:
+        form = PrescriptionForm()
+
+    return render(request, 'doctor/prescription.html', {'form': form, 'booking':booking})
+#
+# @login_required(login_url='login_view')
+# def view_prescription(request):
+#     doctor = request.user.doctor
+#     prescription = Prescription.objects.filter(booking__doctor=doctor)
+#     return render(request,'doctor/view_prescription.html',{'prescription': prescription})

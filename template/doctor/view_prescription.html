@@ -1,24 +1,25 @@
 {% extends "doctor/doctor_base.html" %}
 {% block content %}
-
-<h3>My Bookings</h3>
+<h4>Prescription</h4>
 
 <table class="table">
     <thead>
         <tr>
             <th>Serial No</th>
-            <th>Patient Name</th>
-            <th>Age</th>
-            <th>Phone</th>
+            <th>Medicine Name</th>
+            <th>Dose</th>
+            <th>Duration</th>
+            <th>Instruction</th>
         </tr>
     </thead>
     <tbody>
-        {% for i in bookings %}
+        {% for prescription in prescription %}
         <tr>
             <td>{{ forloop.counter }}</td>
-            <td>{{ i.patient.name }}</td>
-            <td>{{ i.patient.age }}</td>
-            <td>{{ i.patient.phone_number }}</td>
+            <td>{{ prescription.medicine_name }}</td>
+            <td>{{ prescription.dose }}</td>
+            <td>{{ prescription.duration }}</td>
+            <td>{{ prescription.instruction }}</td>
         </tr>
         {% empty %}
         <tr>

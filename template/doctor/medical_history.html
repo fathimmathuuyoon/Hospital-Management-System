@@ -1,7 +1,7 @@
 {% extends "doctor/doctor_base.html" %}
 {% block content %}
 
-<h4>Medical History</h4>
+<h3>Medical History</h3>
 
 <table class="table">
   <thead>
@@ -10,7 +10,7 @@
       <th>Patient</th>
       <th>Symptoms</th>
       <th>Diagnosis</th>
-      <th>Prescription</th>
+      <th>Medicine</th>
       <th>Date</th>
     </tr>
   </thead>
@@ -22,7 +22,7 @@
       <td>{{ h.booking.patient.name }}</td>
       <td>{{ h.symptoms }}</td>
       <td>{{ h.diagnosis }}</td>
-      <td>{{ h.prescription }}</td>
+      <td>{{ h.medicine }}</td>
       <td>{{ h.created_at|date:"d M Y" }}</td>
     </tr>
     {% empty %}

@@ -21,11 +21,11 @@ def login_view(request):
         if user is not None:
             login(request,user)
             if user.is_staff:
-                return redirect('index')
+                return redirect('admin_base')
             if user.is_doctor:
-                return redirect('index')
+                return redirect('doctor_base')
             if user.is_patient:
-                return redirect('index')
+                return redirect('patient_base')
         else:
             print('Invalid credentials')
     return render(request,'loginpage.html')
