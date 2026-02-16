@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
+from newapp.filter import PatientFilter, BookingFilter
 from newapp.forms import MedicalReportForm, PrescriptionForm
 from newapp.models import Doctor, Booking, MedicalReport, Prescription
 
@@ -22,11 +23,13 @@ def view_patients(request):
     user_data = request.user
     user_doctor = Doctor.objects.get(user=user_data)
     bookings = Booking.objects.filter(doctor=user_doctor)
-    return render(
-        request,
-        'doctor/view_patients.html',
-        {'bookings': bookings}
-    )
+    bookingFilter = BookingFilter(request.GET, queryset=bookings)
+    bookings = bookingFilter.qs
+    context = {
+        'bookings': bookings,
+        'bookingFilter': bookingFilter
+    }
+    return render(request,'doctor/view_patients.html',context)
 
 @login_required(login_url='login_view')
 def medical_report(request, id):
@@ -49,13 +52,8 @@ def medical_report(request, id):
 def medical_history(request,id):
     user_data = request.user
     user_doctor = Doctor.objects.get(user=user_data)
-    history = MedicalReport.objects.filter(id=id,booking__doctor=user_doctor)
-
-    return render(
-        request,
-        'doctor/medical_history.html',
-        {'history': history}
-    )
+    history = MedicalReport.objects.filter(booking_id=id,booking__doctor=user_doctor)
+    return render(request,'doctor/medical_history.html', {'history': history})
 
 
 @login_required(login_url='login_view')
@@ -68,12 +66,12 @@ def prescription(request, id):
             data.booking = booking
             data.doctor = request.user.doctor
             data.save()
-            return redirect('view_prescription',id=booking.id)
+            return redirect('view_patients')
     else:
         form = PrescriptionForm()
 
     return render(request, 'doctor/prescription.html', {'form': form, 'booking':booking})
-#
+
 # @login_required(login_url='login_view')
 # def view_prescription(request):
 #     doctor = request.user.doctor

@@ -6,13 +6,13 @@
 <form method="post">
     {% csrf_token %}
     <select name="doctor" class="form-control">
-        <option value="">-- Select Doctor --</option>
-        {% for d in doctors %}
-            <option value="{{ d.id }}">
-                {{ d.name }} - {{ d.dept }}
-            </option>
-        {% endfor %}
-    </select>
+  {% for doctor in doctors %}
+    <option value="{{ doctor.id }}">
+      Dr. {{ doctor.name }} – {{ doctor.dept }} (Fee: ₹{{ doctor.fee }})
+    </option>
+  {% endfor %}
+</select>
+
     <br>
     <button class="btn btn-primary">Book</button>
 </form>

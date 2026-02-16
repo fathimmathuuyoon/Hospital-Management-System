@@ -16,6 +16,7 @@ urlpatterns = [
     path('delete_doctor/<int:id>', admin_views.delete_doctor, name = 'delete_doctor'),
     path('view_patient', admin_views.view_patient, name='view_patient'),
     path('view_departments', admin_views.view_departments, name='view_departments'),
+    path('view_payment', admin_views.view_payment, name='view_payment'),
 
 
     path('doctor_base', doctor_views.doctor_base, name='doctor_base'),
@@ -30,4 +31,7 @@ urlpatterns = [
     path('book_doctor', patient_views.book_doctor, name='book_doctor'),
     path('view_report', patient_views.view_report, name='view_report'),
     path('view_prescriptions', patient_views.view_prescriptions, name='view_prescriptions'),
+    path('view_bill', patient_views.view_bill, name='view_bill'),
+    path('payment/<int:id>', patient_views.payment, name='payment'),
+
 ]

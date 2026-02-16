@@ -1,0 +1,48 @@
+{% extends "patient/patient_base.html" %}
+{% block content %}
+
+<h3>My Bills</h3>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Serial No</th>
+      <th>Doctor</th>
+      <th>Department</th>
+      <th>Amount</th>
+      <th>Date</th>
+      <th>Status</th>
+      <th>Payment</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {% for bill in bills %}
+    <tr>
+      <td>{{ forloop.counter }}</td>
+      <td>{{ bill.booking.doctor.name }}</td>
+      <td>{{ bill.booking.doctor.dept }}</td>
+      <td>₹ {{ bill.amount }}</td>
+      <td>{{ bill.created_at|date:"d M Y" }}</td>
+      <td>{{ bill.status }}</td>
+      <td>
+        {% if bill.status == "Paid" %}
+        <button class="btn btn-success" disabled>
+          Paid
+        </button>
+        {% else %}
+        <a href="{% url 'payment' bill.id %}" class="btn btn-success">
+          Pay Now
+        </a>
+        {% endif %}
+      </td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="6" class="text-center">No bills found</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

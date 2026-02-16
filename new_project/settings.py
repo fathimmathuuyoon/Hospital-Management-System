@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'newapp',
     'crispy_forms',
     'crispy_bootstrap5',
+    'django_filters',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
@@ -77,12 +78,24 @@ WSGI_APPLICATION = 'new_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "hospitalmanagement_db",
+        "USER": "postgres",
+        "PASSWORD": "1234",
+        "HOST": "127.0.0.1",
+        "PORT": "5432",
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 
 # Password validation

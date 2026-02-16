@@ -14,6 +14,7 @@ class Doctor(models.Model):
     dept = models.CharField(max_length=20)
     name = models.CharField(max_length=20)
     phone_number = models.CharField(max_length=10)
+    fee = models.IntegerField()
 
 class Patient(models.Model):
     user = models.OneToOneField(Login,on_delete=models.CASCADE,related_name='patients')
@@ -29,6 +30,7 @@ class Department(models.Model):
 class Booking(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
+    doc_fee = models.IntegerField()
     booking_date = models.DateTimeField(auto_now_add=True)
 
 
@@ -46,3 +48,14 @@ class Prescription(models.Model):
     duration = models.CharField(max_length=50)
     instruction = models.TextField()
     date = models.DateField(auto_now_add=True)
+
+class Bill(models.Model):
+    booking = models.ForeignKey(Booking, on_delete=models.CASCADE)
+    amount = models.DecimalField(max_digits=8, decimal_places=2)
+    created_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(
+        max_length=20,
+        choices=[('Paid', 'Paid'), ('Unpaid', 'Unpaid')],
+        default='Unpaid'
+    )
+

@@ -1,8 +1,9 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
+from newapp.filter import DoctorFilter, PatientFilter
 from newapp.forms import DoctorRegister
-from newapp.models import Doctor, Patient, Department
+from newapp.models import Doctor, Patient, Department, Bill, Booking
 
 
 @login_required(login_url='login_view')
@@ -12,7 +13,13 @@ def admin_base(request):
 @login_required(login_url='login_view')
 def view_doctor(request):
     data = Doctor.objects.all()
-    return render(request, 'admin/view_doctor.html',{'data':data})
+    doctorFilter = DoctorFilter(request.GET, queryset=data)
+    data = doctorFilter.qs
+    context = {
+        'data': data,
+        'doctorFilter': doctorFilter
+    }
+    return render(request, 'admin/view_doctor.html',context)
 
 @login_required(login_url='login_view')
 def edit_doctor(request,id):
@@ -38,13 +45,29 @@ def delete_doctor(request,id):
 
 @login_required(login_url='login_view')
 def view_patient(request):
-    data = Patient.objects.all()
-    return render(request, 'admin/view_patient.html',{'data':data})
+    data = Booking.objects.all()
+    patientFilter = PatientFilter(request.GET, queryset=data)
+    data = patientFilter.qs
+    context = {
+        'data': data,
+        'patientFilter': patientFilter
+    }
+    return render(request, 'admin/view_patient.html',context)
 
 
 @login_required(login_url='login_view')
 def view_departments(request):
-    departments = Department.objects.all()
-    return render(request, 'admin/view_department.html', {'departments': departments})
+    departments = Doctor.objects.all()
+    departmentFilter = PatientFilter(request.GET, queryset=departments)
+    departments = departmentFilter.qs
+    context = {
+        'departments': departments,
+        'departmentFilter': departmentFilter
+    }
+    return render(request, 'admin/view_department.html', context)
 
+@login_required(login_url='login_view')
+def view_payment(request):
+    billings = Bill.objects.all()
+    return render(request, 'admin/view_payment.html', {'billings': billings})
 

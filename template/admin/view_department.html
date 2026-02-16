@@ -1,5 +1,18 @@
 {% extends "admin/admin_base.html" %}
 {% block content %}
+
+<h3>Department Record</h3>
+
+<div class="container">
+  <div class="row">
+    <form method="get" class="form-inline " style="float:right;">
+      <div class="md-form my-0">
+        {{departmentFilter.form }}
+      </div>
+      <button class="btn btn-primary ml-2" type="submit">Search</button>
+    </form>
+  </div>
+
 <table class="table">
   <thead>
     <tr>
@@ -12,8 +25,8 @@
   {% for i in departments %}
 <tr>
   <th scope="row">{{ forloop.counter }}</th>
-  <td>{{ i.doctor_dept.dept }}</td>
-  <td>{{ i.doctor_dept.name }}</td>
+  <td>{{ i.dept }}</td>
+  <td>{{ i.name }}</td>
 </tr>
 {% endfor %}
   </tbody>

@@ -1,23 +1,40 @@
 {% extends "admin/admin_base.html" %}
 {% block content %}
+
+<h3>Patients Record</h3>
+
+<div class="container">
+  <div class="row">
+    <form method="get" class="form-inline " style="float:right;">
+      <div class="md-form my-0">
+        {{patientFilter.form }}
+      </div>
+      <button class="btn btn-primary ml-2" type="submit">Search</button>
+    </form>
+  </div>
+
 <table class="table">
   <thead>
     <tr>
       <th scope="col">Serial no</th>
+      <th scope="col">Doctor</th>
       <th scope="col">Name</th>
       <th scope="col">Age</th>
       <th scope="col">Phone Number</th>
       <th scope="col">Address</th>
+
     </tr>
   </thead>
   <tbody>
   {% for i in data %}
     <tr>
       <th scope="row">{{ forloop.counter }}</th>
-      <td>{{ i.name }}</td>
-        <td>{{ i.age }}</td>
-      <td>{{ i.phone_number }}</td>
-        <td>{{ i.address }}</td>
+      <td>{{ i.doctor.name }}</td>
+      <td>{{ i.patient.name }}</td>
+        <td>{{ i.patient.age }}</td>
+      <td>{{ i.patient.phone_number }}</td>
+        <td>{{ i.patient.address }}</td>
+
     </tr>
   {% endfor %}
   </tbody>
